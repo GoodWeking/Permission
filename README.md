@@ -37,12 +37,40 @@ launchPermission(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,  andr
                     android.Manifest.permission.READ_SMS),
       tipDialog = {
                     //自定义提示引导
+           AlertDialog.Builder(context)
+            .setMessage(resources.getString(R.string.register_permission_dialog_msg))
+            .setPositiveButton(resources.getString(R.string.register_permission_dialog_confirm)) { _, _ ->
+                openSettingsPermission()
+            }
+            .setNeutralButton(
+                resources.getString(R.string.register_permission_dialog_cancel),
+                null
+            ).show()
           }
    ) {
              //权限申请结果   
              
 }
+
+```
+```java
+launchPermission(permissions = android.Manifest.permission.ACCESS_FINE_LOCATION,
+                tipDialog = {
+                    //自定义提示
+                }) {
+                Toast.makeText(this, "是否成功：$it", Toast.LENGTH_SHORT).show()
+    }
+```
+跳转设置页
+```java
+fun Context.openSettingsPermission() {
+    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.parse("package:$packageName")
+        startActivity(this)
+    }
+}
 ```
 
 ### 选择联系人
 目前只封装了获取单个联系人以兼容到 api 33，在调用时请添加权限到清单文件 `Manifest.permission.READ_CONTACTS`
+
