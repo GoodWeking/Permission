@@ -1,6 +1,11 @@
 # Permision
 目前第一版封装了：页面启动、页面启动回调、获取通讯录联系人、获取相册图片、拍照获取图片、单条权限申请、多条权限申请，且已适配到Android 13
-
+```java
+    maven { url 'https://jitpack.io' }
+```
+```java
+   implementation 'com.github.GoodWeking:Permission:v1.0'
+```
 
 ### 权限申请
 权限申请支持单条权限和多条权限申请，支持强制拒绝后弹窗提示用户并引导区设置也开启权限
