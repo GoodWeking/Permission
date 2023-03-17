@@ -9,7 +9,6 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
-
 plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false

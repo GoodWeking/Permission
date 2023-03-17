@@ -1,9 +1,10 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 //    id 'com.github.dcendents.android-maven'
 }
-group='com.github.GoodWeking'
+//group='com.github.GoodWeking'
 //apply plugin: "com.android.library"
 //apply plugin: "org.jetbrains.kotlin.android"
 //apply plugin: "com.github.dcendents.android-maven"
@@ -36,7 +37,18 @@ android {
         jvmTarget = '1.8'
     }
 }
-
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication){
+                from components.release
+                groupId = 'com.github.GoodWeking'
+                artifactId = 'release'
+                version = 'v1.0'
+            }
+        }
+    }
+}
 dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
