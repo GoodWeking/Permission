@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<AppCompatButton>(R.id.btnGetContact).setOnClickListener {
             //选择联系人
-            launchContact{
+            launchContact {
 
             }
         }
@@ -52,13 +52,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
         findViewById<AppCompatButton>(R.id.btnSinglePermission).setOnClickListener {
-            launchPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) {
+            launchPermission(permissions = android.Manifest.permission.ACCESS_FINE_LOCATION,
+                tipDialog = {
+                    //自定义提示
+                }) {
                 Toast.makeText(this, "是否成功：$it", Toast.LENGTH_SHORT).show()
             }
         }
         findViewById<AppCompatButton>(R.id.btnMorePermission).setOnClickListener {
-            launchPermission(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.READ_SMS)) {
+            launchPermission(
+                permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.READ_SMS),
+                tipDialog = {
+                    //自定义提示引导
+                }) {
+
                 Toast.makeText(this, "是否成功：$it", Toast.LENGTH_SHORT).show()
             }
         }
