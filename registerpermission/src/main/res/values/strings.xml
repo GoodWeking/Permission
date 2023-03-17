@@ -1,0 +1,5 @@
+<resources>
+    <string name="register_permission_dialog_msg">需要开启权限才能正常使用~</string>
+    <string name="register_permission_dialog_cancel">取消</string>
+    <string name="register_permission_dialog_confirm">确认</string>
+</resources>

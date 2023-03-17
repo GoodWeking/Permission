@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGetContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择联系人" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLaunch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="启动页面" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLaunchResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="启动页面回传值" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAlbum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相册" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相机" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSinglePermission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="单项权限" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnMorePermission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="多项权限" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivDemo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <FrameLayout
+        android:id="@+id/flContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</androidx.appcompat.widget.LinearLayoutCompat>

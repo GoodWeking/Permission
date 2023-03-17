@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拍照" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFPic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="相册" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFSinglePermission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="单项权限" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFMorePermission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="多项权限" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFLacunch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="启动" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFLacunchResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="启动回传" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择联系人" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivFImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTextFContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white" />
+    </FrameLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
