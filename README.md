@@ -17,6 +17,7 @@ launchPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) {
       Toast.makeText(this, "是否成功：$it", Toast.LENGTH_SHORT).show()
 }
 ```
+
 ```java
 //多条权限申请
 launchPermission(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,  android.Manifest.permission.READ_SMS)) {
@@ -60,6 +61,7 @@ launchPermission(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,  andr
 }
 
 ```
+
 ```java
 launchPermission(permissions = android.Manifest.permission.ACCESS_FINE_LOCATION,
                 tipDialog = {
@@ -81,7 +83,6 @@ fun Context.openSettingsPermission() {
 ### 选择联系人
 目前只封装了获取单个联系人以兼容到 api 33，在调用时请添加权限到清单文件 `Manifest.permission.READ_CONTACTS`
 ```java
-
 launchContact {
     //it.name 联系人姓名
     //it.phone 联系人电话
@@ -108,14 +109,14 @@ second：文件名
 
 ```java
     //相册获取 
- launchPic("camera" to ("${System.currentTimeMillis()}.jpg")) {
+launchPic("camera" to ("${System.currentTimeMillis()}.jpg")) {
                 ivImage.setImageURI(it.uri)
- }
+}
 ```
               
 相机获取需要再清单文件添加权限Android13以上`Manifest.permission.READ_MEDIA_IMAGES`,`Manifest.permission.CAMERA`以下`Manifest.permission.WRITE_EXTERNAL_STORAGE`,`Manifest.permission.CAMERA`
 ```java
- launchCamera("camera" to ("${System.currentTimeMillis()}.jpg")) {
+launchCamera("camera" to ("${System.currentTimeMillis()}.jpg")) {
      //it.uri 
      //it.file 从uri转出的图片
 }
