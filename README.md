@@ -109,14 +109,14 @@ second：文件名
 
 ```java
     //相册获取 
-launchPic("camera" to ("${System.currentTimeMillis()}.jpg")) {
+launchPic(path="camera" to ("${System.currentTimeMillis()}.jpg")) {
                 ivImage.setImageURI(it.uri)
 }
 ```
               
 相机获取需要再清单文件添加权限Android13以上`Manifest.permission.READ_MEDIA_IMAGES`,`Manifest.permission.CAMERA`以下`Manifest.permission.WRITE_EXTERNAL_STORAGE`,`Manifest.permission.CAMERA`
 ```java
-launchCamera("camera" to ("${System.currentTimeMillis()}.jpg")) {
+launchCamera(path="camera" to ("${System.currentTimeMillis()}.jpg")) {
      //it.uri 
      //it.file 从uri转出的图片
 }
