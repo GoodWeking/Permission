@@ -78,4 +78,31 @@ fun Context.openSettingsPermission() {
 
 ### 选择联系人
 目前只封装了获取单个联系人以兼容到 api 33，在调用时请添加权限到清单文件 `Manifest.permission.READ_CONTACTS`
+```java
 
+launchContact {
+    //it：联系人
+}
+```
+
+### Activity 跳转
+```java
+launch<ContentActivity>("value1" to "111", "value2" to 222)
+
+launchForResult<ContentActivity>("customer" to "mainActivity") { rsultCode: Int, data: Intent? ->
+              //回传值回调     
+  }
+```
+
+### 获取图片
+相册获取选择结果都是存放在sd的下载目录，需要再清单文件添加文件读写权限Android13以下`Manifest.permission.WRITE_EXTERNAL_STORAGE`以上`Manifest.permission.READ_MEDIA_IMAGES`
+path=Pair<String,String>
+first：存放文件夹
+second：文件名
+
+```java
+    //相册获取 
+ launchPic("camera" to ("${System.currentTimeMillis()}.jpg")) {
+                ivImage.setImageURI(it.uri)
+ }
+```
