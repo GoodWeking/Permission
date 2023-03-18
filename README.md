@@ -1,5 +1,7 @@
 # Permision 权限申请封装，页面跳转封装
 目前第一版封装了：页面启动、页面启动回调、获取通讯录联系人、获取相册图片、拍照获取图片、单条权限申请、多条权限申请，且已适配到Android 13
+
+### 导入
 ```java
     maven { url 'https://jitpack.io' }
 ```
@@ -81,7 +83,10 @@ fun Context.openSettingsPermission() {
 ```java
 
 launchContact {
-    //it：联系人
+    //it.name 联系人姓名
+    //it.phone 联系人电话
+    //it.saveDate 保存时间
+    //it.contactId 联系人id
 }
 ```
 
@@ -96,6 +101,7 @@ launchForResult<ContentActivity>("customer" to "mainActivity") { rsultCode: Int,
 
 ### 获取图片
 相册获取选择结果都是存放在sd的下载目录，需要再清单文件添加文件读写权限Android13以下`Manifest.permission.WRITE_EXTERNAL_STORAGE`以上`Manifest.permission.READ_MEDIA_IMAGES`
+
 path=Pair<String,String>
 first：存放文件夹
 second：文件名
@@ -105,4 +111,12 @@ second：文件名
  launchPic("camera" to ("${System.currentTimeMillis()}.jpg")) {
                 ivImage.setImageURI(it.uri)
  }
+```
+              
+相机获取需要再清单文件添加权限Android13以上`Manifest.permission.READ_MEDIA_IMAGES`,`Manifest.permission.CAMERA`以下`Manifest.permission.WRITE_EXTERNAL_STORAGE`,`Manifest.permission.CAMERA`
+```java
+ launchCamera("camera" to ("${System.currentTimeMillis()}.jpg")) {
+     //it.uri 
+     //it.file 从uri转出的图片
+}
 ```
