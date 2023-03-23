@@ -6,7 +6,7 @@
     maven { url 'https://jitpack.io' }
 ```
 ```java
-   implementation 'com.github.GoodWeking:Permission:v1.0'
+   implementation 'com.github.GoodWeking:Permission:1.3'
 ```
 
 ### 权限申请
