@@ -3,9 +3,11 @@ package com.goodPermission.launch
 import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.goodPermission.ActivityRegisterExpansion
 import com.goodPermission.permission.ActivityResult
 
 /**
@@ -24,9 +26,18 @@ fun launchForResultCustomer(
     nextPage: Class<*>,
     onResult: (resultCode: Int, data: Intent?) -> Unit,
 ) {
-    ActivityResult(fm).requestFragment.startForResult(
-        builderValue(Intent(context, nextPage), *value), onResult
-    )
+//    ActivityResult(fm).requestFragment.startForResult(
+//        builderValue(Intent(context, nextPage), *value), onResult
+//    )
+    ActivityRegisterExpansion(fragmentManager = fm,
+        registerContracts = ActivityResultContracts.StartActivityForResult(),
+        registerCallBack = {
+            it?.let {
+                onResult.invoke(it.resultCode, it.data)
+            }
+        },
+        registerValue = builderValue(Intent(context, nextPage), *value)
+    ).launcherRegister()
 }
 
 inline fun <reified AA> AppCompatActivity.launchForResult(

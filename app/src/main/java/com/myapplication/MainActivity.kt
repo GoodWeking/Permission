@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.btnGetContact).setOnClickListener {
             //选择联系人
             launchContact {
-
             }
         }
         findViewById<AppCompatButton>(R.id.btnLaunch).setOnClickListener {
@@ -49,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<AppCompatButton>(R.id.btnCamera).setOnClickListener {
             launchCamera("camera" to ("${System.currentTimeMillis()}.jpg")) {
                 ivImage.setImageURI(it.uri)
+
             }
         }
         findViewById<AppCompatButton>(R.id.btnSinglePermission).setOnClickListener {
