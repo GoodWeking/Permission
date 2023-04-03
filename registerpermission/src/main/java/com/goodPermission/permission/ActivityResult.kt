@@ -2,6 +2,7 @@ package com.goodPermission.permission
 
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
@@ -56,9 +57,10 @@ class ActivityResult(private val fragmentManager: FragmentManager) {
         fun startForResult(
             intent: Intent?,
             onResult: (resultCode: Int, data: Intent?) -> Unit,
-        ) {
+            options: ActivityOptionsCompat? = null,
+            ) {
             this.onResult = onResult
-            launcherResult.launch(intent)
+            launcherResult.launch(intent, options)
         }
 
         fun launchPermission(permission: String, permissionResult: (Boolean) -> Unit) {

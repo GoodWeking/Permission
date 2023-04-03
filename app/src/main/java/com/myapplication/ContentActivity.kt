@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.transition.Slide
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -16,6 +17,8 @@ class ContentActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.exitTransition = Slide()
+        window.enterTransition = Slide()
         setContentView(R.layout.activity_content)
         findViewById<TextView>(R.id.tvContent).apply {
             text = intent.getStringExtra("customer")
@@ -24,7 +27,7 @@ class ContentActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK, Intent().apply {
                 putExtra("result", "contentActivity")
             })
-            finish()
+          onBackPressed()
         }
     }
 }

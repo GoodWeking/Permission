@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.goodPermission.permission.ActivityResult
@@ -22,22 +23,24 @@ fun launchForResultCustomer(
     fm: FragmentManager,
     vararg value: Pair<String, Any?>,
     nextPage: Class<*>,
+    option: ActivityOptionsCompat? = null,
     onResult: (resultCode: Int, data: Intent?) -> Unit,
 ) {
     ActivityResult(fm).requestFragment.startForResult(
-        builderValue(Intent(context, nextPage), *value), onResult
+        builderValue(Intent(context, nextPage), *value), onResult, option
     )
 }
 
 inline fun <reified AA> AppCompatActivity.launchForResult(
     vararg value: Pair<String, Any?>,
+    option: ActivityOptionsCompat? = null,
     noinline onResult: (resultCode: Int, data: Intent?) -> Unit,
 ) {
     launchForResultCustomer(context = this,
         fm = supportFragmentManager,
         value = value,
         nextPage = AA::class.java,
-        onResult = onResult)
+        onResult = onResult, option = option)
 
 }
 
@@ -46,26 +49,33 @@ inline fun <reified AA> AppCompatActivity.launchForResult(
  */
 inline fun <reified AA> Fragment.launchForResult(
     vararg value: Pair<String, Any?>,
+    option: ActivityOptionsCompat? = null,
     noinline onResult: (resultCode: Int, data: Intent?) -> Unit,
 ) {
     launchForResultCustomer(context = requireContext(),
         fm = childFragmentManager,
         value = value,
         nextPage = AA::class.java,
-        onResult = onResult)
+        onResult = onResult, option = option)
 }
 
 /**
  * launch activity
  */
-inline fun <reified AA> Context.launch(vararg value: Pair<String, Any?>) {
-    startActivity(builderValue(Intent(this, AA::class.java), *value))
+inline fun <reified AA> Context.launch(
+    vararg value: Pair<String, Any?>,
+    option: ActivityOptionsCompat? = null,
+) {
+    startActivity(builderValue(Intent(this, AA::class.java), *value), option?.toBundle())
 }
 
 /**
  * launch activity
  */
-inline fun <reified AA> Fragment.launch(vararg value: Pair<String, Any?>) {
+inline fun <reified AA> Fragment.launch(
+    vararg value: Pair<String, Any?>,
+    option: ActivityOptionsCompat? = null,
+) {
     requireContext().launch<AA>(*value)
 }
 

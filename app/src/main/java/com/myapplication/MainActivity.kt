@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.app.ActivityOptionsCompat
 import com.goodPermission.*
 import com.goodPermission.expansion.launchCamera
 import com.goodPermission.expansion.launchContact
@@ -30,12 +31,13 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<AppCompatButton>(R.id.btnLaunch).setOnClickListener {
             //启动页面
-            launch<ContentActivity>()
+            launch<ContentActivity>(option = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity))
         }
 
         findViewById<AppCompatButton>(R.id.btnLaunchResult).apply {
             setOnClickListener {
-                launchForResult<ContentActivity>("customer" to "mainActivity") { _: Int, data: Intent? ->
+                launchForResult<ContentActivity>("customer" to "mainActivity",
+                    option = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity)) { _: Int, data: Intent? ->
                     this.text = data?.getStringExtra("result")
                 }
             }
