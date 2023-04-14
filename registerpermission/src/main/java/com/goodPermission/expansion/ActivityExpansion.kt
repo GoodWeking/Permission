@@ -1,13 +1,19 @@
 package com.goodPermission.expansion
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
+import android.provider.ContactsContract
 import android.util.Log
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.goodPermission.mode.PicMode
 import com.goodPermission.tools.cameraUri
+import kotlin.io.path.fileVisitor
 
 /**
  * @Time 2023/3/16 10:52:47
@@ -57,6 +63,13 @@ class ActivityExpansion(private val fragmentManager: FragmentManager) {
                 it?.let(contactResult)
             }
 
+        //intent action的方式选择联系人
+        private var intentResult: (ActivityResult?) -> Unit = {}
+        private val launcherIntent =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                intentResult.invoke(it)
+            }
+
         override fun onDestroyView() {
             super.onDestroyView()
             launcherPic.unregister()
@@ -78,6 +91,11 @@ class ActivityExpansion(private val fragmentManager: FragmentManager) {
         fun launchContact(contactResult: (Uri) -> Unit) {
             this.contactResult = contactResult
             launcherContact.launch(null)
+        }
+
+        fun launchIntentForResult(intent: Intent, result: (ActivityResult?) -> Unit) {
+            this.intentResult = result
+            launcherIntent.launch(intent)
         }
     }
 

@@ -37,7 +37,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.GoodWeking'
                 artifactId = 'release'
-                version = 'v1.3.1'
+                version = 'v1.3.2'
             }
         }
     }

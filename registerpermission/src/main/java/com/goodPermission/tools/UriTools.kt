@@ -7,12 +7,10 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.provider.ContactsContract
-import android.text.TextUtils
-import android.widget.Toast
+import android.util.Log
 import androidx.core.content.FileProvider
 import com.goodPermission.mode.ContactMode
 import com.goodPermission.mode.PicMode
-import com.myapplication.R
 import java.io.*
 
 /**
@@ -20,20 +18,13 @@ import java.io.*
  * @Description
  **/
 fun Context.cameraUri(path: String, name: String): PicMode {
-    val file = File(
-        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            .absolutePath,
-        "$path/${name}"
-    )
-    return PicMode(
-        FileProvider.getUriForFile(
-            this,
-            "${this.packageName}.FileProvider",
-            file.apply {
-                parentFile?.mkdirs()
-                createNewFile()
-            }
-        ), file)
+    val file =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
+            "$path/${name}")
+    return PicMode(FileProvider.getUriForFile(this, "${this.packageName}.FileProvider", file.apply {
+        parentFile?.mkdirs()
+        createNewFile()
+    }), file)
 }
 
 /**
@@ -46,14 +37,12 @@ fun Uri.toFile(context: Context, path: String, name: String): PicMode? {
             return PicMode(this, this.path?.let { File(it) })
         }
         ContentResolver.SCHEME_CONTENT -> {
-            val file = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                    .absolutePath,
-                "$path/${name}"
-            ).apply {
-                parentFile?.mkdirs()
-                createNewFile()
-            }
+            val file =
+                File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
+                    "$path/${name}").apply {
+                    parentFile?.mkdirs()
+                    createNewFile()
+                }
             //把文件复制到沙盒目录
             val contentResolver: ContentResolver = context.contentResolver
             return try {
@@ -110,6 +99,46 @@ fun Uri.toContact(context: Context): ContactMode {
             }
             phones?.close()
         }
+        cursor.close()
+    }
+    return contactMode
+}
+
+/**
+ * Intent action 方式读取联系人从Uri读取
+ */
+@SuppressLint("Range")
+fun Uri.toContactPick(context: Context): ContactMode {
+    val contactMode = ContactMode()
+    val cursor: Cursor? = context.contentResolver.query(this, null, null, null, null)
+    val first = cursor?.moveToFirst()
+    Log.i("打印", "toContactPick first: $first")
+    if (first == true) {
+        cursor.columnNames?.sorted()?.forEach {
+            Log.i("打印", "toContactPick columnName: $it")
+        }
+        cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA1).let {
+            if (it > -1)
+                contactMode.phone = cursor.getString(it)
+        }
+        cursor.getColumnIndex(ContactsContract.Contacts.Data._ID).let {
+            if (it > -1) {
+                contactMode.contactId = cursor.getString(it)
+            }
+        }
+        cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY).let {
+            if (it > -1)
+                contactMode.name = cursor.getString(it)
+        }
+        cursor.getColumnIndex(ContactsContract.Contacts.CONTACT_LAST_UPDATED_TIMESTAMP).let {
+            if (it > -1) {
+                contactMode.saveDate = cursor.getString(it)
+            }
+        }
+        Log.i("toContactPick", "cursor - name: ${contactMode.name}")
+        Log.i("toContactPick", "cursor - saveTime: ${contactMode.saveDate}")
+        Log.i("toContactPick", "cursor - phone: ${contactMode.phone}")
+        Log.i("toContactPick", "cursor - id: ${contactMode.contactId}")
         cursor.close()
     }
     return contactMode

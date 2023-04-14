@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import com.goodPermission.expansion.launchCamera
 import com.goodPermission.expansion.launchContact
+import com.goodPermission.expansion.launchContact2
 import com.goodPermission.permission.launchPermission
 import com.goodPermission.expansion.launchPic
 import com.goodPermission.launch.launch
@@ -79,7 +81,10 @@ class TakeFragment : Fragment() {
         val tvContent = content.findViewById<AppCompatTextView>(R.id.tvTextFContent)
         content.findViewById<Button>(R.id.btnFContact).setOnClickListener {
             //启动
-            launchContact {
+//            ( requireActivity() as AppCompatActivity).launchContact2 {
+//
+//            }
+            launchContact2 {
                 tvContent.text = it.toString()
             }
         }

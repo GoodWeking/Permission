@@ -76,7 +76,7 @@ inline fun <reified AA> Fragment.launch(
     vararg value: Pair<String, Any?>,
     option: ActivityOptionsCompat? = null,
 ) {
-    requireContext().launch<AA>(*value)
+    requireContext().launch<AA>(value = value, option = option)
 }
 
 /**

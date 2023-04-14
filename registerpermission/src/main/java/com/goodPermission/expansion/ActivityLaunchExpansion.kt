@@ -1,8 +1,11 @@
 package com.goodPermission.expansion
 
 import android.Manifest
+import android.content.Intent
 import android.os.Build
+import android.provider.ContactsContract
 import android.util.Log
+import androidx.activity.result.ActivityResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
@@ -10,6 +13,7 @@ import com.goodPermission.mode.ContactMode
 import com.goodPermission.mode.PicMode
 import com.goodPermission.permission.launchPermission
 import com.goodPermission.tools.toContact
+import com.goodPermission.tools.toContactPick
 import com.goodPermission.tools.toFile
 
 /**
@@ -84,32 +88,79 @@ fun Fragment.launchCamera(path: Pair<String, String>, img: (PicMode) -> Unit) {
 
 /**
  * 选择联系人
+ * 需要添加权限 <uses-permission android:name="android.permission.READ_CONTACTS" />
  */
 fun AppCompatActivity.launchContact(result: (ContactMode) -> Unit) {
-    launchPermission(Manifest.permission.READ_CONTACTS) { it ->
+    launchPermission(Manifest.permission.READ_CONTACTS) {
+        //判断是否有联系人读取权限
         if (it) {
-            ActivityExpansion(supportFragmentManager).getRequestFragment()?.launchContact {
-                val mode = it.toContact(this)
-                Log.i("launchContact", "launchContact: $mode")
-                result.invoke(mode)
-            }
+            ActivityExpansion(supportFragmentManager).getRequestFragment()
+                ?.launchContact { contactUri ->
+                    val mode = contactUri.toContact(this)
+                    result.invoke(mode)
+                }
+        }
+    }
+}
+
+/**
+ * 选择联系人
+ */
+fun Fragment.launchContact(result: (ContactMode) -> Unit) {
+    launchPermission(Manifest.permission.READ_CONTACTS) {
+        if (it) {
+            ActivityExpansion(childFragmentManager).getRequestFragment()
+                ?.launchContact { contactUri ->
+                    val mode = contactUri.toContact(requireContext())
+                    result.invoke(mode)
+                }
+        }
+    }
+}
+
+/**
+ * 选择联系人 无需 联系人读取权限
+ */
+fun AppCompatActivity.launchContact2(result: (ContactMode) -> Unit) {
+    launchIntentForResult(Intent(Intent.ACTION_PICK).apply {
+        type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
+    }) {
+        val contact = it?.data?.data?.toContactPick(this)
+        if (contact != null) {
+            result.invoke(contact)
+        }
+    }
+}
+
+/**
+ * 选择联系人 无需 联系人读取权限
+ */
+fun Fragment.launchContact2(result: (ContactMode) -> Unit) {
+    launchIntentForResult(Intent(Intent.ACTION_PICK).apply {
+        type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
+    }) {
+        val contact = it?.data?.data?.toContactPick(requireContext())
+        if (contact != null) {
+            result.invoke(contact)
         }
     }
 }
 
 
 /**
- * 选择联系人
+ * 自定义 intent 启动
  */
-fun Fragment.launchContact(result: (ContactMode) -> Unit) {
-    launchPermission(Manifest.permission.READ_CONTACTS) { it ->
-        if (it) {
-            ActivityExpansion(childFragmentManager).getRequestFragment()?.launchContact {
-                val mode = it.toContact(requireContext())
-                Log.i("launchContact", "launchContact: $mode")
-                result.invoke(mode)
-            }
-        }
-    }
+fun AppCompatActivity.launchIntentForResult(intent: Intent, result: (ActivityResult?) -> Unit) {
+    ActivityExpansion(supportFragmentManager).getRequestFragment()
+        ?.launchIntentForResult(intent, result)
+}
+
+
+/**
+ * 自定义 intent 启动
+ */
+fun Fragment.launchIntentForResult(intent: Intent, result: (ActivityResult?) -> Unit) {
+    ActivityExpansion(childFragmentManager).getRequestFragment()
+        ?.launchIntentForResult(intent, result)
 }
 
