@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import android.os.Debug
 import android.os.Environment
 import android.provider.ContactsContract
 import android.util.Log
@@ -110,36 +111,41 @@ fun Uri.toContact(context: Context): ContactMode {
 @SuppressLint("Range")
 fun Uri.toContactPick(context: Context): ContactMode {
     val contactMode = ContactMode()
-    val cursor: Cursor? = context.contentResolver.query(this, null, null, null, null)
-    val first = cursor?.moveToFirst()
-    Log.i("打印", "toContactPick first: $first")
-    if (first == true) {
-        cursor.columnNames?.sorted()?.forEach {
-            Log.i("打印", "toContactPick columnName: $it")
-        }
-        cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA1).let {
-            if (it > -1)
-                contactMode.phone = cursor.getString(it)
-        }
-        cursor.getColumnIndex(ContactsContract.Contacts.Data._ID).let {
-            if (it > -1) {
-                contactMode.contactId = cursor.getString(it)
+    try {
+        val cursor: Cursor? = context.contentResolver.query(this, null, null, null, null)
+        val first = cursor?.moveToFirst()
+        Log.i("打印", "toContactPick first: $first")
+        if (first == true) {
+            cursor.columnNames?.sorted()?.forEach {
+                Log.i("打印", "toContactPick columnName: $it")
             }
-        }
-        cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY).let {
-            if (it > -1)
-                contactMode.name = cursor.getString(it)
-        }
-        cursor.getColumnIndex(ContactsContract.Contacts.CONTACT_LAST_UPDATED_TIMESTAMP).let {
-            if (it > -1) {
-                contactMode.saveDate = cursor.getString(it)
+            cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA1).let {
+                if (it > -1)
+                    contactMode.phone = cursor.getString(it)
             }
+            cursor.getColumnIndex(ContactsContract.Contacts.Data._ID).let {
+                if (it > -1) {
+                    contactMode.contactId = cursor.getString(it)
+                }
+            }
+            cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY).let {
+                if (it > -1)
+                    contactMode.name = cursor.getString(it)
+            }
+            cursor.getColumnIndex(ContactsContract.Contacts.CONTACT_LAST_UPDATED_TIMESTAMP).let {
+                if (it > -1) {
+                    contactMode.saveDate = cursor.getString(it)
+                }
+            }
+            Log.i("toContactPick", "cursor - name: ${contactMode.name}")
+            Log.i("toContactPick", "cursor - saveTime: ${contactMode.saveDate}")
+            Log.i("toContactPick", "cursor - phone: ${contactMode.phone}")
+            Log.i("toContactPick", "cursor - id: ${contactMode.contactId}")
+            cursor.close()
         }
-        Log.i("toContactPick", "cursor - name: ${contactMode.name}")
-        Log.i("toContactPick", "cursor - saveTime: ${contactMode.saveDate}")
-        Log.i("toContactPick", "cursor - phone: ${contactMode.phone}")
-        Log.i("toContactPick", "cursor - id: ${contactMode.contactId}")
-        cursor.close()
+    } catch (e: Exception) {
+        contactMode.isError = true
+        Log.i("toContactPick", "cursor error: $e")
     }
     return contactMode
 }
