@@ -128,6 +128,10 @@ fun AppCompatActivity.launchContact2(result: (ContactMode) -> Unit) {
         val contact = it?.data?.data?.toContactPick(this)
         if (contact != null) {
             result.invoke(contact)
+        } else {
+            result.invoke(ContactMode().apply {
+                isError = true
+            })
         }
     }
 }
@@ -142,6 +146,10 @@ fun Fragment.launchContact2(result: (ContactMode) -> Unit) {
         val contact = it?.data?.data?.toContactPick(requireContext())
         if (contact != null) {
             result.invoke(contact)
+        } else {
+            result.invoke(ContactMode().apply {
+                isError = true
+            })
         }
     }
 }

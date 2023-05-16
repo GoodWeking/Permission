@@ -113,6 +113,10 @@ fun Uri.toContactPick(context: Context): ContactMode {
     val contactMode = ContactMode()
     try {
         val cursor: Cursor? = context.contentResolver.query(this, null, null, null, null)
+        if (cursor == null) {
+            contactMode.isError = true
+            return contactMode
+        }
         val first = cursor?.moveToFirst()
         Log.i("打印", "toContactPick first: $first")
         if (first == true) {
