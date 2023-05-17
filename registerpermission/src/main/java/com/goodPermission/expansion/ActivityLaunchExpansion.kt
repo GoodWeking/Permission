@@ -125,8 +125,7 @@ fun AppCompatActivity.launchContact2(result: (ContactMode) -> Unit) {
     launchIntentForResult(Intent(Intent.ACTION_PICK).apply {
         type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
     }) {
-        Log.i("打印", "launchContact2 result: $it")
-        if (it != null) {
+        if (it != null && it.data != null) {
             val contact = it.data?.data?.toContactPick(this)
             if (contact != null) {
                 result.invoke(contact)
@@ -146,7 +145,7 @@ fun Fragment.launchContact2(result: (ContactMode) -> Unit) {
     launchIntentForResult(Intent(Intent.ACTION_PICK).apply {
         type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
     }) {
-        if (it != null) {
+        if (it != null && it.data != null) {
             val contact = it.data?.data?.toContactPick(requireContext())
             if (contact != null) {
                 result.invoke(contact)

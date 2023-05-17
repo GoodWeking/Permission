@@ -118,10 +118,8 @@ fun Uri.toContactPick(context: Context): ContactMode {
             return contactMode
         }
         val first = cursor?.moveToFirst()
-        Log.i("打印", "toContactPick first: $first")
         if (first == true) {
             cursor.columnNames?.sorted()?.forEach {
-                Log.i("打印", "toContactPick columnName: $it")
             }
             cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA1).let {
                 if (it > -1)
